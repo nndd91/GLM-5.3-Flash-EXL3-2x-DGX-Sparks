@@ -16,7 +16,15 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-PATCH = ROOT / 'overlay/patch_scheduler_decode_floor.py'
+HERE = Path(__file__).resolve().parent
+PATCH = next(
+    p
+    for p in (
+        HERE / 'patch_scheduler_decode_floor.py',
+        ROOT / 'overlay' / 'patch_scheduler_decode_floor.py',
+    )
+    if p.is_file()
+)
 spec = importlib.util.spec_from_file_location('glm53_decode_floor', PATCH)
 mod = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = mod
